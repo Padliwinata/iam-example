@@ -16,12 +16,17 @@ app.add_middleware(
 )
 
 class Decode(BaseModel):
+    client: str
     token: str
-    secret: str
+
+credentials = {
+    'EXAMPLE01': 'secret',
+    'TESTAPP01': 'rahasia'
+}
 
 @app.post('/decode')
 def root(decode: Decode):
-    return jwt.decode(decode.token, decode.secret, algorithms='HS256')
+    return jwt.decode(decode.token, credentials[decode.client], algorithms='HS256')
 
 @app.get('/item/{item_id}')
 def item(item_id: int):
